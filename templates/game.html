@@ -1,0 +1,91 @@
+<!<!DOCTYPE html>
+<html>
+<head>
+    <title>Roll and Go</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; background: #f9f9f9; }
+        .board { display: grid; grid-template-columns: repeat(10, 80px); justify-content: center; margin: 20px auto; gap: 5px; }
+        .tile {
+            border: 2px solid #333;
+            height: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+            border-radius: 6px;
+            background-color: #fff;
+            box-shadow: 0 0 5px #ccc;
+        }
+        .scoreboard {
+            margin: 20px auto;
+            max-width: 600px;
+        }
+        .scoreboard h2 { margin-bottom: 5px; }
+        .roll-btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-top: 15px;
+            cursor: pointer;
+        }
+
+        /* Player Colors */
+        .player-R { color: red; font-weight: bold; }
+        .player-G { color: green; font-weight: bold; }
+        .player-Y { color: yellow; font-weight: bold; }
+        .player-B { color: blue; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>🎲 Roll and Go 🎲</h1>
+    <h2>Turn: <span class="player-{{ color[0].upper() }}">{{ color.capitalize() }}</span></h2>
+    <p>{{ message }}</p>
+
+    <div class="scoreboard">
+        <h2>📊 Scoreboard</h2>
+        <table border="1" cellpadding="5" cellspacing="0" style="margin: auto;">
+            <tr>
+                <th>Player</th>
+                <th>Position</th>
+                <th>Trivia Wins</th>
+                <th>Monster Wins</th>
+            </tr>
+            {% for p_color, p_data in players.items() %}
+            <tr class="player-{{ p_color[0].upper() }}">
+                <td>{{ p_color.capitalize() }}</td>
+                <td>{{ p_data['position'] }}</td>
+                <td>{{ p_data['trivia_wins'] }}</td>
+                <td>{{ p_data['monster_wins'] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div class="board">
+        {% for i in range(board|length) %}
+            <div class="tile">
+                <div><strong>#{{ i }}</strong></div>
+                <div>{{ board[i] }}</div>
+                {% for p_color, p_data in players.items() %}
+                    {% if p_data['position'] == i %}
+                        <div class="player-{{ p_color[0].upper() }}">{{ p_color[0].upper() }}</div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+
+    {% if question %}
+        <form method="post">
+            <p><strong>Trivia ({{ question['category'].capitalize() }})</strong>: {{ question['question'] }}</p>
+            <input type="text" name="answer" required>
+            <button type="submit" class="roll-btn">Submit Answer</button>
+        </form>
+    {% else %}
+        <form method="post">
+            <button type="submit" class="roll-btn">🎲 Roll Dice</button>
+        </form>
+    {% endif %}
+
+</body>
+</html>

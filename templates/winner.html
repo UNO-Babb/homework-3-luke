@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>🎉 Winner!</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding-top: 50px;
+            background: #e0ffe0;
+        }
+        h1 {
+            font-size: 48px;
+            color: #4CAF50;
+        }
+        .winner {
+            font-size: 36px;
+            font-weight: bold;
+        }
+        .player-R { color: red; }
+        .player-G { color: green; }
+        .player-Y { color: yellow; }
+        .player-B { color: blue; }
+
+        a {
+            font-size: 20px;
+            display: inline-block;
+            margin-top: 30px;
+            color: #0000aa;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎉 Game Over!</h1>
+    <p>The winner is:</p>
+    <div class="winner player-{{ color[0].upper() }}">{{ color.capitalize() }}</div>
+    <a href="{{ url_for('index') }}" onclick="playWin()">Play Again</a>
+
+</body>
+</html>
